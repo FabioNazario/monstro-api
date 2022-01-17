@@ -1,5 +1,4 @@
 # monstro-api
-Em desenvolvimento.
 
 https://github.com/FabioNazario/user <br>
 https://github.com/FabioNazario/monstro-api <br>
