@@ -1,9 +1,14 @@
 package br.edu.infnet.controller;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -67,14 +72,15 @@ public class MonstroController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody Monstro m){
+	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody Monstro comingMonster){
 		
 		
 		try {
-			logger.info("Monstro encontrado: id:" + m.getId() + " nome:" + m.getNome());
-			m = this.monstroService.getById(id);
+			Monstro existingMonster = this.monstroService.getById(id);
+			logger.info("Monstro encontrado: id:" + existingMonster.getId() + " nome:" + existingMonster.getNome());
+			copyNonNullProperties(comingMonster, existingMonster);
 			logger.info("Alterando monstro: " + id);
-			this.monstroService.update(id, m);
+			this.monstroService.update(id, existingMonster);
 		} catch (NoSuchElementException e) {
 			logger.info("Monstro não encontrado " + "(id:"+id+") ");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -97,6 +103,22 @@ public class MonstroController {
 		return monstroService.getRandom();
 	}
 	
+	public static void copyNonNullProperties(Object src, Object target) {
+	    BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
+	}
+
+	public static String[] getNullPropertyNames (Object source) {
+	    final BeanWrapper src = new BeanWrapperImpl(source);
+	    java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+
+	    Set<String> emptyNames = new HashSet<String>();
+	    for(java.beans.PropertyDescriptor pd : pds) {
+	        Object srcValue = src.getPropertyValue(pd.getName());
+	        if (srcValue == null) emptyNames.add(pd.getName());
+	    }
+	    String[] result = new String[emptyNames.size()];
+	    return emptyNames.toArray(result);
+	}
 
 	
 }
