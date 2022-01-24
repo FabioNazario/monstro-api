@@ -6,6 +6,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.annotation.security.RolesAllowed;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -39,7 +41,6 @@ public class MonstroController {
 	
 	@Autowired
 	SegurancaClient segurancaClient;
-	
 	
 	@PostMapping
 	public void create(@RequestBody Monstro m) {
@@ -111,15 +112,21 @@ public class MonstroController {
 		return monstroService.getRandom();
 	}
 	
-	//SEGURANCA[
+	//SEGURANCA ---------------------------------------------------------------------------------
+	
 	@GetMapping("/whoami")
 	public ResponseEntity<UserDTO> whoami(@RequestHeader("Authorization") String token) {
 		
-		UserDTO user = segurancaClient.getWhoami(token);
-		return new ResponseEntity<UserDTO>(user,HttpStatus.OK);
+		try {
+			UserDTO user = segurancaClient.getWhoami(token);
+			return new ResponseEntity<UserDTO>(user,HttpStatus.OK);
+		}catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		
 	}
 	
-	//UTIL
+	//UTIL ---------------------------------------------------------------------------------
 	public static void copyNonNullProperties(Object src, Object target) {
 	    BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
 	}

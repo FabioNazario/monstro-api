@@ -35,10 +35,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
 		UserDTO user = null;
 		try {
 			user = segurancaClient.getWhoami(token);
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-		 
+		}catch (Exception e){}
+
 		if(user != null) {
 			
 			System.out.println("Usuario recuperado: " + user.getUsername());

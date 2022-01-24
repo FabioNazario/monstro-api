@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import br.edu.infnet.client.SegurancaClient;
 
@@ -18,7 +17,7 @@ public class AuthenticationService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String token) throws UsernameNotFoundException {
 
-		UserDetails user = (UserDetails) segurancaClient.getWhoami("Berer " + token);
+		UserDetails user = (UserDetails) segurancaClient.getWhoami(token);
 		
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found.");
