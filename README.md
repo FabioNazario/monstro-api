@@ -1,4 +1,10 @@
 # Monstro
+## Grupo
+- Bruno Muniz
+- Eliton Heythansen
+- Fábio Nazário
+- Rogéria Leandro
+	
 
 https://github.com/FabioNazario/user <br>
 https://github.com/FabioNazario/monstro-api <br>
