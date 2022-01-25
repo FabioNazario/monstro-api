@@ -53,14 +53,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests()
-		.antMatchers(HttpMethod.GET, "/doc").permitAll()
+		.antMatchers(HttpMethod.GET, "/swagger-ui**").permitAll()
 		.antMatchers(HttpMethod.GET, "/whoami").permitAll()
 		.antMatchers(HttpMethod.GET, "/random").authenticated()
 		.antMatchers(HttpMethod.POST, "/*").hasRole("ADMIN")
 		.antMatchers(HttpMethod.PUT, "/*").hasRole("ADMIN")
 		.antMatchers(HttpMethod.DELETE, "/*").hasRole("ADMIN")
 		.antMatchers(HttpMethod.GET, "/*").hasRole("ADMIN")
-		.anyRequest().denyAll()
+		.anyRequest().permitAll()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and().addFilterBefore(new TokenAuthenticationFilter(getApplicationContext()) , UsernamePasswordAuthenticationFilter.class);
