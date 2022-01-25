@@ -1,4 +1,5 @@
 # Monstro
+Micro serviço de Monstro pra o jogo de RPG
 ## Grupo
 - Bruno Muniz
 - Eliton Heythansen
