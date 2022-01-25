@@ -12,7 +12,7 @@ https://github.com/FabioNazario/config-repo
 
 Obs: Todas as aplicações então incompletas e sujeitas a modificações
 
-localhost:8080/api/monstro/random
+http://MONSTRO/random
 
 retorno:
 
